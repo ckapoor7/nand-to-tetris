@@ -16,5 +16,16 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+        // increase input value by 1 
+        Inc16(in = init, out = incr);
+
+
+        // use multiplexer for an action corresponding to one 
+        // of the 3 input pins to the counter
+        Mux16(a = init, b = incr, sel = inc, out = out1);
+        Mux16(a = out1, b = in, sel = load, out = out2);
+        Mux16(a = out2, b = false, sel = reset, out = out3);
+
+        // store value depending on the select pins 
+        Register(in = out3, load = true, out = out, out = init);
 }
